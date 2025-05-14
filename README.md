@@ -28,12 +28,13 @@ To run the Docker image, use the following steps:
      -e RECORD_ID=<your_record_id> \
      -e API_TOKEN=<your_api_token> \
      -e DOMAIN=<your_domain> \
+     -e CRON_INTERVAL="*/10 * * * *" \ # Optional: Set to run every 10 minutes
      -v $(pwd)/stored_ip.txt:/app/stored_ip.txt \
      ddns-ip-update
    ```
 
-Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_domain>` with your actual values.
+Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_domain>` with your actual values. The `CRON_INTERVAL` environment variable is optional and defaults to every 5 minutes.
 
 ## Notes
 - The `stored_ip.txt` file is used to store the last known IP address to avoid unnecessary updates.
-- The cron job inside the container runs the script every 5 minutes.
+- The cron job inside the container runs the script at the specified interval.

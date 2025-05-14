@@ -11,6 +11,7 @@ services:
       - RECORD_ID=${RECORD_ID}
       - API_TOKEN=${API_TOKEN}
       - DOMAIN=${DOMAIN}
+      - CRON_INTERVAL=${CRON_INTERVAL} # e.g., "*/5 * * * *" for every 5 minutes
     volumes:
       - ./stored_ip.txt:/app/stored_ip.txt
     restart: always
