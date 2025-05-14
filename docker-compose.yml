@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  ddns-updater:
+    image: ddns-ip-update
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ZONE_ID=${ZONE_ID}
+      - RECORD_ID=${RECORD_ID}
+      - API_TOKEN=${API_TOKEN}
+      - DOMAIN=${DOMAIN}
+    volumes:
+      - ./stored_ip.txt:/app/stored_ip.txt
+    restart: always
