@@ -1,5 +1,5 @@
 #!/bin/bash
-
+echo "Starting IP update script..."
 # Default values for variables
 ZONE_ID=""
 RECORD_ID=""
@@ -31,12 +31,18 @@ fi
 IP=$(curl -s http://checkip.amazonaws.com)
 
 # Retrieve saved IP
-STORED_IP = $(<stored_ip.txt)
+STORED_IP=$(<stored_ip.txt)
+
+# Get the current date and time
+current_datetime=$(date)
 
 if [[ "$IP" != "$STORED_IP" ]]; then
 	
-	# Update the DNS record
-	echo "IP address changed to $IP. Updating DNS record..."
+	# logging the IP change
+	echo "$current_datetime -> $IP" >> ip_update.log
+	
+	# Updating the DNS record
+	echo "$current_datetime -> $IP. Updating DNS record..."
 
 	curl -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records/$RECORD_ID" \
 	-H "Authorization: Bearer $API_TOKEN" \

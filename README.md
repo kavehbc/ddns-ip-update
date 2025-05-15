@@ -12,6 +12,16 @@ The bash script `ip-update.bash` accepts the following input arguments from Clou
 - `-t` or `--api-token`: The API token for authentication.
 - `-d` or `--domain`: The domain name to update.
 
+## Cloudflare Zone ID
+Zone IDs can be extracted by calling the following API:
+
+
+```bash
+curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records" \
+-H "Authorization: Bearer $API_TOKEN" \
+-H "Content-Type: application/json" | jq '.' > output.json
+```
+
 ## Running the Docker Image
 To run the Docker image, use the following steps:
 

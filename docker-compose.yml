@@ -1,17 +1,18 @@
-version: '3.8'
-
 services:
   ddns-updater:
     image: kavehbc/ddns-ip-update
+    container_name: ddns-updater
     build:
       context: .
       dockerfile: Dockerfile
-    environment:
-      - ZONE_ID=${ZONE_ID}
-      - RECORD_ID=${RECORD_ID}
-      - API_TOKEN=${API_TOKEN}
-      - DOMAIN=${DOMAIN}
-      - CRON_INTERVAL=${CRON_INTERVAL} # e.g., "*/5 * * * *" for every 5 minutes
-    volumes:
-      - ./stored_ip.txt:/app/stored_ip.txt
+    command: ["-i", "*/1 * * * *", "-d", "yexer.com", "-t", "sATSLqqerUuOxm-okAwKQ53U1cS6RFNGQ3eaT7UC", "-z", "09c1499aa87cb7241790cf84670f38b4", "-r", "41ccdc14378fafbcdd5e7c38980743e8"]
+
+    # environment:
+    #   - ZONE_ID=${ZONE_ID}
+    #   - RECORD_ID=${RECORD_ID}
+    #   - API_TOKEN=${API_TOKEN}
+    #   - DOMAIN=${DOMAIN}
+    #   - CRON_INTERVAL=${CRON_INTERVAL} # e.g., "*/5 * * * *" for every 5 minutes
+    # volumes:
+    #   - ./stored_ip.txt:/app/stored_ip.txt
     restart: always
