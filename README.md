@@ -65,3 +65,10 @@ Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_dom
 ## Notes
 - The `stored_ip.txt` file is used to store the last known IP address to avoid unnecessary updates.
 - The cron job inside the container runs the script at the specified interval.
+
+## Developer(s)
+Kaveh Bakhtiyari - [Website](http://bakhtiyari.com) | [Medium](https://medium.com/@bakhtiyari)
+  | [LinkedIn](https://www.linkedin.com/in/bakhtiyari) | [Github](https://github.com/kavehbc)
+
+## Contribution
+Feel free to join the open-source community and contribute to this repository.
