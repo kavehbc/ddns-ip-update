@@ -28,8 +28,8 @@ WORKDIR /app
 COPY . .
 
 # Make the script executable
-RUN chmod +x /app/ip-update.bash
-RUN chmod +x /app/setup.bash
+RUN chmod +x /app/script/ip-update.bash
+RUN chmod +x /app/script/setup.bash
 
 # Start the cron service
-ENTRYPOINT [ "/app/setup.bash" ]
+ENTRYPOINT [ "/app/script/setup.bash" ]

@@ -31,7 +31,7 @@ fi
 IP=$(curl -s http://checkip.amazonaws.com)
 
 # Retrieve saved IP
-STORED_IP=$(<stored_ip.txt)
+STORED_IP=$(</app/log/stored_ip.txt)
 
 # Get the current date and time
 current_datetime=$(date)
@@ -39,7 +39,7 @@ current_datetime=$(date)
 if [[ "$IP" != "$STORED_IP" ]]; then
 	
 	# logging the IP change
-	echo "$current_datetime -> $IP" >> /app/ip-update.log
+	echo "$current_datetime -> $IP" >> /app/log/ip-update.log
 
 	# Updating the DNS record
 	echo "$current_datetime -> $IP. Updating DNS record..."
@@ -56,6 +56,6 @@ if [[ "$IP" != "$STORED_IP" ]]; then
 	}'
 
 	# Store new IP address
-	echo "$IP" > /app/stored_ip.txt
+	echo "$IP" > /app/log/stored_ip.txt
 
 fi
