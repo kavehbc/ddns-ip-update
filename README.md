@@ -44,23 +44,32 @@ To run the Docker image, use the following steps:
    ```
 
 3. Run the Docker container using Docker Compose:
+
    ```bash
    docker-compose up -d
    ```
 
    Ensure the `docker-compose.yml` file is properly configured with the required environment variables:
+
    ```yaml
    services:
      ddns-updater:
+       image: kavehbc/ddns-ip-update
        environment:
          - ZONE_ID=<your_zone_id>
          - RECORD_ID=<your_record_id>
          - API_TOKEN=<your_api_token>
          - DOMAIN=<your_domain>
-         - CRON_INTERVAL="*/10 * * * *" # Optional: Set to run every 10 minutes
+         - CRON_INTERVAL=*/10 * * * * # Optional: Set to run every 10 minutes
+       volumes:
+         - ./stored_ip.txt:/app/stored_ip.txt
    ```
 
-Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_domain>` with your actual values. The `CRON_INTERVAL` environment variable is optional and defaults to every 5 minutes.
+**Note:**  
+Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_domain>` with your actual values.  
+The `CRON_INTERVAL` environment variable is optional and defaults to every 5 minutes if not set.
+
+You can pass environment variables directly in the `docker-compose.yml` file as shown above, or use an `.env` file and reference them in the compose file.
 
 ## Notes
 - The `stored_ip.txt` file is used to store the last known IP address to avoid unnecessary updates.

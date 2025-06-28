@@ -1,10 +1,13 @@
 #!/bin/bash
+
 echo "Starting IP update script..."
+
 # Default values for variables
-ZONE_ID=""
-RECORD_ID=""
-API_TOKEN=""
-DOMAIN=""
+CRON_INTERVAL="${CRON_INTERVAL:-*/5 * * * *}"
+ZONE_ID="${ZONE_ID:-}"
+RECORD_ID="${RECORD_ID:-}"
+API_TOKEN="${API_TOKEN:-}"
+DOMAIN="${DOMAIN:-}"
 
 # Parse input arguments
 while getopts "z:r:t:d:" opt; do
@@ -51,7 +54,7 @@ if [[ "$IP" != "$STORED_IP" ]]; then
 	  "type": "A",
 	  "name": "'"$DOMAIN"'",
 	  "content": "'"$IP"'",
-	  "ttl": 1,
+	  "ttl": 3600,
 	  "proxied": false
 	}'
 
