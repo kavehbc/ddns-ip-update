@@ -9,16 +9,32 @@ RECORD_ID="${RECORD_ID:-}"
 API_TOKEN="${API_TOKEN:-}"
 DOMAIN="${DOMAIN:-}"
 
-# Parse input arguments
-while getopts "z:r:t:d:" opt; do
-  case $opt in
-    z) ZONE_ID="$OPTARG" ;;  # Zone ID
-    r) RECORD_ID="$OPTARG" ;;  # Record ID
-    t) API_TOKEN="$OPTARG" ;;  # API Token
-    d) DOMAIN="$OPTARG" ;;  # Domain
-    *) 
+# Parse input arguments (support both short and long options)
+while [[ $# -gt 0 ]]; do
+  case "$1" in
+    -z|--zone-id)
+      ZONE_ID="$2"
+      shift 2
+      ;;
+    -r|--record-id)
+      RECORD_ID="$2"
+      shift 2
+      ;;
+    -t|--api-token)
+      API_TOKEN="$2"
+      shift 2
+      ;;
+    -d|--domain)
+      DOMAIN="$2"
+      shift 2
+      ;;
+    -*)
       echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
+      echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --domain DOMAIN"
       exit 1
+      ;;
+    *)
+      shift
       ;;
   esac
 done
@@ -27,6 +43,7 @@ done
 if [[ -z "$ZONE_ID" || -z "$RECORD_ID" || -z "$API_TOKEN" || -z "$DOMAIN" ]]; then
   echo "Error: Missing required arguments."
   echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
+  echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --domain DOMAIN"
   exit 1
 fi
 
