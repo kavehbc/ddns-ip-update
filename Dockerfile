@@ -5,21 +5,13 @@ FROM debian:stable-slim
 LABEL maintainer="Kaveh Bakhtiyari" \
       version="1.0" \
       description="A Docker image for updating IP address in DDNS records using Cloudflare API"
-
-# Set environment variables for input arguments
-# CRON_INTERVAL default to every 5 minutes
-ENV ZONE_ID="" \
-    RECORD_ID="" \
-    API_TOKEN="" \
-    DOMAIN="" \
-    CRON_INTERVAL="*/5 * * * *"
     
 # Install required packages
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get upgrade -y \
     curl \
     cron \
-    bash
-#    && rm -rf /var/lib/apt/lists/*
+    bash \
+    && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
 WORKDIR /app
