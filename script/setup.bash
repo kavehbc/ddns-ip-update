@@ -1,11 +1,32 @@
 #!/bin/bash
 
-# Default values for variables
+# Default values for variables from environment
 CRON_INTERVAL="${CRON_INTERVAL:-*/5 * * * *}"
 ZONE_ID="${ZONE_ID:-}"
 RECORD_ID="${RECORD_ID:-}"
 API_TOKEN="${API_TOKEN:-}"
 DOMAIN="${DOMAIN:-}"
+
+# Parse input arguments (override env if provided)
+while getopts "i:z:r:t:d:" opt; do
+  case $opt in
+    i) CRON_INTERVAL="$OPTARG" ;;
+    z) ZONE_ID="$OPTARG" ;;
+    r) RECORD_ID="$OPTARG" ;;
+    t) API_TOKEN="$OPTARG" ;;
+    d) DOMAIN="$OPTARG" ;;
+    *)
+      echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
+      ;;
+  esac
+done
+
+# Check if all required variables are set
+if [[ -z "$ZONE_ID" || -z "$RECORD_ID" || -z "$API_TOKEN" || -z "$DOMAIN" || -z "$CRON_INTERVAL" ]]; then
+  echo "Error: Missing required arguments."
+  echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
+  exit 1
+fi
 
 # Create the cron job
 echo "$CRON_INTERVAL root /app/script/ip-update.bash -z $ZONE_ID -r $RECORD_ID -t $API_TOKEN -d $DOMAIN" > /etc/cron.d/ip-update

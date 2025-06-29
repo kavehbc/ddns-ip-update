@@ -40,6 +40,7 @@ To run the Docker image, use the following steps:
      -e DOMAIN=<your_domain> \
      -e CRON_INTERVAL="*/10 * * * *" \ # Optional: Set to run every 10 minutes
      -v $(pwd)/stored_ip.txt:/app/stored_ip.txt \
+     -v $(pwd)/ip-update.log:/app/ip-update.log \
      kavehbc/ddns-ip-update
    ```
 
@@ -62,7 +63,8 @@ To run the Docker image, use the following steps:
          - DOMAIN=<your_domain>
          - CRON_INTERVAL=*/10 * * * * # Optional: Set to run every 10 minutes
        volumes:
-         - ./stored_ip.txt:/app/stored_ip.txt
+         - ./log/stored_ip.txt:/app/stored_ip.txt
+         # - ./log/ip-update.log:/app/ip-update.log
    ```
 
 **Note:**  
@@ -72,7 +74,8 @@ The `CRON_INTERVAL` environment variable is optional and defaults to every 5 min
 You can pass environment variables directly in the `docker-compose.yml` file as shown above, or use an `.env` file and reference them in the compose file.
 
 ## Notes
-- The `stored_ip.txt` file is used to store the last known IP address to avoid unnecessary updates.
+- `/app/log/stored_ip.txt`: It stores the last known IP address to avoid unnecessary updates.
+- `/app/log/ip-update.log`: It contains the log of the updates with date and updated IP address.
 - The cron job inside the container runs the script at the specified interval.
 
 ## Developer(s)
