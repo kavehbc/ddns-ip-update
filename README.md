@@ -78,6 +78,10 @@ You can pass environment variables directly in the `docker-compose.yml` file as 
 - `/app/log/ip-update.log`: It contains the log of the updates with date and updated IP address.
 - The cron job inside the container runs the script at the specified interval.
 
+## References
+- [Docker Hub](https://hub.docker.com/repository/docker/kavehbc/ddns-ip-updat)
+- [GitHub Repository](https://github.com/kavehbc/ddns-ip-update)
+
 ## Developer(s)
 Kaveh Bakhtiyari - [Website](http://bakhtiyari.com) | [Medium](https://medium.com/@bakhtiyari)
   | [LinkedIn](https://www.linkedin.com/in/bakhtiyari) | [Github](https://github.com/kavehbc)
