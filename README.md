@@ -79,7 +79,7 @@ You can pass environment variables directly in the `docker-compose.yml` file as 
 - The cron job inside the container runs the script at the specified interval.
 
 ## References
-- [Docker Hub](https://hub.docker.com/repository/docker/kavehbc/ddns-ip-updat)
+- [Docker Hub](https://hub.docker.com/repository/docker/kavehbc/ddns-ip-update)
 - [GitHub Repository](https://github.com/kavehbc/ddns-ip-update)
 
 ## Developer(s)
