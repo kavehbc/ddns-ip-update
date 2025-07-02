@@ -37,7 +37,7 @@ To run the Docker image, use the following steps:
      -e ZONE_ID=<your_zone_id> \
      -e RECORD_ID=<your_record_id> \
      -e API_TOKEN=<your_api_token> \
-     -e DOMAIN=<your_domain> \
+     -e RECORD_NAME=<your_dns_record_name> \
      -e CRON_INTERVAL="*/10 * * * *" \ # Optional: Set to run every 10 minutes
      -v $(pwd)/stored_ip.txt:/app/stored_ip.txt \
      -v $(pwd)/ip-update.log:/app/ip-update.log \
@@ -60,7 +60,7 @@ To run the Docker image, use the following steps:
          - ZONE_ID=<your_zone_id>
          - RECORD_ID=<your_record_id>
          - API_TOKEN=<your_api_token>
-         - DOMAIN=<your_domain>
+         - RECORD_NAME=<your_dns_record_name>
          - CRON_INTERVAL=*/10 * * * * # Optional: Set to run every 10 minutes
        volumes:
          - ./log/stored_ip.txt:/app/stored_ip.txt
@@ -68,7 +68,7 @@ To run the Docker image, use the following steps:
    ```
 
 **Note:**  
-Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_domain>` with your actual values.  
+Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_dns_record_name>` with your actual values.  
 The `CRON_INTERVAL` environment variable is optional and defaults to every 5 minutes if not set.
 
 You can pass environment variables directly in the `docker-compose.yml` file as shown above, or use an `.env` file and reference them in the compose file.

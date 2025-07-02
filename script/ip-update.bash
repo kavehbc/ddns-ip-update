@@ -7,7 +7,7 @@ CRON_INTERVAL="${CRON_INTERVAL:-*/5 * * * *}"
 ZONE_ID="${ZONE_ID:-}"
 RECORD_ID="${RECORD_ID:-}"
 API_TOKEN="${API_TOKEN:-}"
-DOMAIN="${DOMAIN:-}"
+RECORD_NAME="${RECORD_NAME:-}"
 
 # Parse input arguments (support both short and long options)
 while [[ $# -gt 0 ]]; do
@@ -24,26 +24,25 @@ while [[ $# -gt 0 ]]; do
       API_TOKEN="$2"
       shift 2
       ;;
-    -d|--domain)
-      DOMAIN="$2"
+    -n|--record-name)
+      RECORD_NAME="$2"
       shift 2
       ;;
     -*)
-      echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
-      echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --domain DOMAIN"
+      echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -n RECORD_NAME"
+      echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --record-name RECORD_NAME"
       exit 1
       ;;
-    *)
-      shift
+    *) shift
       ;;
   esac
 done
 
 # Ensure all required arguments are provided
-if [[ -z "$ZONE_ID" || -z "$RECORD_ID" || -z "$API_TOKEN" || -z "$DOMAIN" ]]; then
+if [[ -z "$ZONE_ID" || -z "$RECORD_ID" || -z "$API_TOKEN" || -z "$RECORD_NAME" ]]; then
   echo "Error: Missing required arguments."
-  echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -d DOMAIN"
-  echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --domain DOMAIN"
+  echo "Usage: $0 -z ZONE_ID -r RECORD_ID -t API_TOKEN -n RECORD_NAME"
+  echo "   or: $0 --zone-id ZONE_ID --record-id RECORD_ID --api-token API_TOKEN --record-name RECORD_NAME"
   exit 1
 fi
 
@@ -69,7 +68,7 @@ if [[ "$IP" != "$STORED_IP" ]]; then
 	-H "Content-Type: application/json" \
 	--data '{
 	  "type": "A",
-	  "name": "'"$DOMAIN"'",
+	  "name": "'"$RECORD_NAME"'",
 	  "content": "'"$IP"'",
 	  "ttl": 3600,
 	  "proxied": false
