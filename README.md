@@ -10,7 +10,7 @@ The bash script `ip-update.bash` accepts the following input arguments from Clou
 - `-z` or `--zone-id`: The Zone ID of the DNS record.
 - `-r` or `--record-id`: The Record ID of the DNS record.
 - `-t` or `--api-token`: The API token for authentication.
-- `-d` or `--domain`: The domain name to update.
+- `-r` or `--record-name`: The record name to update.
 
 ## Cloudflare Zone ID
 Zone IDs can be extracted by calling the following API:
