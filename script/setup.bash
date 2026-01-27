@@ -28,7 +28,12 @@ if [[ -z "$ZONE_ID" || -z "$RECORD_ID" || -z "$API_TOKEN" || -z "$RECORD_NAME" |
   exit 1
 fi
 
+# initial execution of the update script
+echo "Executing initial IP update..."
+/app/script/ip-update-v2.bash -z $ZONE_ID -r $RECORD_ID -t $API_TOKEN -n $RECORD_NAME
+
 # Create the cron job
+echo "Creating cron job with interval: $CRON_INTERVAL"
 echo "$CRON_INTERVAL root /app/script/ip-update-v2.bash -z $ZONE_ID -r $RECORD_ID -t $API_TOKEN -n $RECORD_NAME" > /etc/cron.d/ip-update
 
 # Give execution rights on the cron job file
@@ -37,4 +42,4 @@ chmod 0644 /etc/cron.d/ip-update
 # Apply the cron job
 crontab /etc/cron.d/ip-update
 
-cron -f
+exec cron -f
