@@ -11,4 +11,6 @@ services:
       - API_TOKEN=${API_TOKEN}
       - RECORD_NAME=${RECORD_NAME}
       - CRON_INTERVAL=${CRON_INTERVAL:-*/5 * * * *} # e.g., default every 5 minutes
+    volumes:
+      - ./log:/app/log
     restart: always

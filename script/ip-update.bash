@@ -49,8 +49,24 @@ fi
 # Get the current public IP address
 IP=$(curl -s http://checkip.amazonaws.com)
 
+# Validate IP address format (simple regex for IPv4)
+if ! [[ "$IP" =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+  echo "Error: Invalid IP address retrieved: '$IP'"
+  exit 1
+fi
+
+LOG_FILE="/app/log/ip-update.log"
+STORED_IP_FILE="/app/log/stored_ip.txt"
+
+# Create log directory if it doesn't exist
+mkdir -p $(dirname "$STORED_IP_FILE")
+
 # Retrieve saved IP
-STORED_IP=$(</app/log/stored_ip.txt)
+if [[ -f "$STORED_IP_FILE" ]]; then
+  STORED_IP=$(cat "$STORED_IP_FILE")
+else
+  STORED_IP=""
+fi
 
 # Get the current date and time
 current_datetime=$(date)

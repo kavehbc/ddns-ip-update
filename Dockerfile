@@ -13,11 +13,11 @@ LABEL maintainer="Kaveh Bakhtiyari" \
         vcs-ref="master"
 
         # Install required packages
-RUN apt-get update && apt-get upgrade -y \
+RUN apt-get update && apt-get install -y \
     curl \
     cron \
     bash \
-    nano \
+    jq \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Set the working directory
@@ -27,8 +27,7 @@ WORKDIR /app
 COPY . .
 
 # Make the script executable
-RUN chmod +x /app/script/ip-update.bash
-RUN chmod +x /app/script/setup.bash
+RUN chmod +x /app/script/*.bash
 
 # Start the cron service
 ENTRYPOINT [ "/app/script/setup.bash" ]
