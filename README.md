@@ -47,7 +47,7 @@ To run the Docker image, use the following steps:
 3. Run the Docker container using Docker Compose:
 
    ```bash
-   docker-compose  --env-file=./docker.env up -d
+   docker-compose --env-file=./docker.env up -d
    ```
 
    Ensure the `docker-compose.yml` file is properly configured with the required environment variables:

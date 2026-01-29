@@ -110,7 +110,7 @@ if [[ "$IP" != "$STORED_IP" ]]; then
         else
              # Primitive check if jq missing
              if [[ "$HTTP_BODY" == *"\"success\":true"* ]]; then
-                  echo "Success: DNS record updated." | tee -a "$LOG_FILE"
+                  # echo "Success: DNS record updated." | tee -a "$LOG_FILE"
                   echo "$IP" > "$STORED_IP_FILE"
              else
                   echo "Error: Update might have failed." | tee -a "$LOG_FILE"
