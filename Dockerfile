@@ -3,7 +3,7 @@ FROM debian:stable-slim
 
 # Add metadata about the developer
 LABEL maintainer="Kaveh Bakhtiyari" \
-        version="1.0" \
+        version="1.1" \
         description="A Docker image for updating IP address in DDNS records using Cloudflare API" \
         license="Apache License 2.0" \
         homepage="https://kaveh.ai" \

@@ -7,10 +7,11 @@ This project updates a Dynamic DNS (DDNS) record on Cloudflare with the current 
 ## Bash Script Input Arguments
 The bash script `ip-update.bash` accepts the following input arguments from Cloudflare:
 
-- `-z` or `--zone-id`: The Zone ID of the DNS record.
-- `-r` or `--record-id`: The Record ID of the DNS record.
 - `-t` or `--api-token`: The API token for authentication.
-- `-r` or `--record-name`: The record name to update.
+- `-z` or `--zone-id`: The Zone ID of the DNS record.
+- `-r` or `--record-id`: The Record ID of the DNS record. (Can be comma-separated for multiple records)
+- `-n` or `--record-name`: The record name to update. (Can be comma-separated for multiple records)
+- `-p` or `--proxied`: Proxy status (true/false, default: false). (Can be comma-separated for each record, or single value for all)
 
 ## Cloudflare Zone ID
 Zone IDs can be extracted by calling the following API:
@@ -34,10 +35,11 @@ To run the Docker image, use the following steps:
    ```bash
    docker run -d \
      --name ddns-updater \
-     -e ZONE_ID=<your_zone_id> \
-     -e RECORD_ID=<your_record_id> \
      -e API_TOKEN=<your_api_token> \
-     -e RECORD_NAME=<your_dns_record_name> \
+     -e ZONE_ID=<your_zone_id> \
+     -e RECORD_ID=<your_record_id1>,<your_record_id2> \
+     -e RECORD_NAME=<your_dns_record_name1>,<your_dns_record_name2> \
+     -e PROXIED=false,true \ # Optional: Set to true if you want to proxy the traffic through Cloudflare
      -e CRON_INTERVAL="*/10 * * * *" \ # Optional: Set to run every 10 minutes
      -v $(pwd)/stored_ip.txt:/app/stored_ip.txt \
      -v $(pwd)/ip-update.log:/app/ip-update.log \
@@ -57,21 +59,30 @@ To run the Docker image, use the following steps:
      ddns-updater:
        image: kavehbc/ddns-ip-update
        environment:
-         - ZONE_ID=<your_zone_id>
-         - RECORD_ID=<your_record_id>
          - API_TOKEN=<your_api_token>
-         - RECORD_NAME=<your_dns_record_name>
+         - ZONE_ID=<your_zone_id>
+         - RECORD_ID=<your_record_id1>,<your_record_id2>
+         - RECORD_NAME=<your_dns_record_name1>,<your_dns_record_name2>
+         - PROXIED=false,true # Optional: Set to true if you want to proxy the traffic through Cloudflare
          - CRON_INTERVAL=*/10 * * * * # Optional: Set to run every 10 minutes
        volumes:
-         - ./log/stored_ip.txt:/app/stored_ip.txt
-         # - ./log/ip-update.log:/app/ip-update.log
+         - ./log/:/app/log/
    ```
 
 **Note:**  
 Replace `<your_zone_id>`, `<your_record_id>`, `<your_api_token>`, and `<your_dns_record_name>` with your actual values.  
 The `CRON_INTERVAL` environment variable is optional and defaults to every 5 minutes if not set.
+The `PROXIED` environment variable is optional and defaults to `false` if not set.
+Multiple records can be updated by comma-separating the `RECORD_ID`, `RECORD_NAME`, and `PROXIED` values.
 
 You can pass environment variables directly in the `docker-compose.yml` file as shown above, or use an `.env` file and reference them in the compose file.
+A template file `docker.env.template` is provided to help you set up the environment variables. You can rename it to `docker.env` and update the values.
+
+```bash
+cp docker.env.template docker.env
+# Edit docker.env with your actual values
+docker-compose --env-file=./docker.env up -d
+```
 
 ## Notes
 - `/app/log/stored_ip.txt`: It stores the last known IP address to avoid unnecessary updates.
