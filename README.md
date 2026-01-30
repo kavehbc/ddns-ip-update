@@ -23,12 +23,26 @@ curl -s -X GET "https://api.cloudflare.com/client/v4/zones/$ZONE_ID/dns_records"
 -H "Content-Type: application/json" | jq '.' > output.json
 ```
 
-## Running the Docker Image
+## Building a Multi-Platforms
+
+```bash
+docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t kavehbc/ddns-ip-update:latest .
+```
+
+## Docker Image
 To run the Docker image, use the following steps:
 
 1. Build the Docker image:
+   
+   For local architecture:
    ```bash
    docker build -t kavehbc/ddns-ip-update .
+   ```
+   
+   For multiple platforms (requires [Docker Buildx](https://docs.docker.com/build/building/multi-platform/)):
+
+   ```bash
+   docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v7 -t kavehbc/ddns-ip-update .
    ```
 
 2. Run the Docker container:
